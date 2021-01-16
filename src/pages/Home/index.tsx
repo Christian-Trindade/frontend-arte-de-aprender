@@ -1,5 +1,6 @@
-import { IonPage, IonRow } from "@ionic/react";
+import { IonPage } from "@ionic/react";
 import * as React from "react";
+import { SearchBar } from "../../components/ui";
 
 import * as S from "./styles";
 
@@ -10,13 +11,12 @@ const Home: React.FC = () => {
         color="content-background-light"
         className="ion-padding ion-text-center"
       >
-        <div>
-          <S.Header>
-            <S.TitleSearch>
-              <span>Olá Hugo,</span> Buscar Matéria
-            </S.TitleSearch>
-          </S.Header>
-        </div>
+        <S.Header>
+          <S.TitleSearch>
+            <span>Olá Hugo,</span>Buscar Matéria
+          </S.TitleSearch>
+          <SearchBar placeholder="Digite sua busca" />
+        </S.Header>
       </S.StyledContent>
     </IonPage>
   );

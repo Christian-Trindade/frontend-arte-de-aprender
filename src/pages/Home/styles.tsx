@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { IonContent } from "@ionic/react";
 
-export const StyledContent = styled(IonContent)`
-  #container {
-    animation-duration: 0.4s;
-  }
-`;
+export const StyledContent = styled(IonContent)``;
 
 export const Header = styled.header``;
 

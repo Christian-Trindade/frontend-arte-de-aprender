@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import { IonLoading, IonButton } from "@ionic/react";
 
+import SearchBar from "./Searchbar";
+
 export const Loading = styled(IonLoading)`
   --spinner-color: #044360;
   color: #044360;
@@ -32,3 +34,5 @@ export const TitleSection = styled.div`
   color: var(--ion-color-texto-branco);
   margin-left: 7px;
 `;
+
+export { SearchBar };

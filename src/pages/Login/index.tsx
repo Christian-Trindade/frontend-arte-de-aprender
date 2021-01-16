@@ -76,7 +76,10 @@ const Login: React.FC = () => {
           <IonGrid className="gridContainer">
             <IonRow id="logoContainer">
               <IonCol>
-                <img src="/assets/vectors/logo-text-white.svg" />
+                <img
+                  src="/assets/vectors/logo-text-white.svg"
+                  alt="A logo do projeto, um livro em branco"
+                />
               </IonCol>
             </IonRow>
 
