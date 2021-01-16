@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { IonPage, IonGrid, IonRow, IonCol, IonAlert } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 
-import { isAuthenticated, login } from "../../services/auth";
+import { isAuthenticated, create } from "../../services/auth";
 
 import { Loading, ButtonPrimary, TitleSection } from "../../components/ui";
 
@@ -16,6 +16,7 @@ function validateEmail(email: string) {
 
 const CreateAccount: React.FC = () => {
   const history = useHistory();
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordRepeted, setPasswordRepeted] = useState<string>("");
@@ -30,32 +31,52 @@ const CreateAccount: React.FC = () => {
     }
   }, []);
 
-  const handleLogin = async () => {
-    if (!email) {
-      setMessage("Digite um e-mail");
-      setIserror(true);
-      return;
-    }
-    if (validateEmail(email) === false) {
-      setMessage("Seu e-mail é inválido");
+  const handleCreate = async () => {
+    if (!name) {
+      setMessage("Digite seu nome!");
       setIserror(true);
       return;
     }
 
-    if (!password || password.length < 6) {
-      setMessage("Senha incorreta");
+    if (!email) {
+      setMessage("Digite um e-mail!");
       setIserror(true);
       return;
+    }
+
+    if (!validateEmail(email)) {
+      setMessage("Seu e-mail é inválido!");
+      setIserror(true);
+      return;
+    }
+
+    if (!password) {
+      setMessage("Digite uma senha!");
+      setIserror(true);
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage("Senha Muito Curta!");
+      setIserror(true);
+      return;
+    }
+
+    if (passwordRepeted != password) {
+      setMessage("As senhas ão diferentes!");
+      setIserror(true);
     }
 
     const loginData = {
-      email: email,
-      password: password,
+      name,
+      email,
+      password,
+      profile: "novo",
     };
 
     setShowLoading(true);
 
-    let responseLogin = await login(loginData);
+    let responseLogin = await create(loginData);
 
     if (responseLogin) {
       setShowLoading(false);
@@ -90,6 +111,12 @@ const CreateAccount: React.FC = () => {
             <IonRow id="formRow">
               <IonCol>
                 <InputLogin
+                  type="text"
+                  value={name}
+                  placeholder={"Digite seu nome"}
+                  onChange={(e: any) => setName(e.target.value!)}
+                />
+                <InputLogin
                   type="email"
                   value={email}
                   placeholder={"Digite seu e-mail"}
@@ -115,7 +142,7 @@ const CreateAccount: React.FC = () => {
                 <ButtonPrimary
                   color="primarias-rosa"
                   expand="full"
-                  onClick={handleLogin}
+                  onClick={handleCreate}
                 >
                   Criar Conta
                 </ButtonPrimary>
@@ -151,7 +178,7 @@ const CreateAccount: React.FC = () => {
           <Loading
             isOpen={showLoading}
             onDidDismiss={() => setShowLoading(false)}
-            message={"Entrando..."}
+            message={"Criando sua conta..."}
             spinner="circles"
             mode="ios"
           />
