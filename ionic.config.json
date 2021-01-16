@@ -1,0 +1,7 @@
+{
+  "name": "arte-de-aprender",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
