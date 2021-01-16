@@ -4,6 +4,10 @@ import { IonLoading, IonButton } from "@ionic/react";
 
 import SearchBar from "./Searchbar";
 
+interface TitleSectionProps {
+  color?: string;
+}
+
 export const Loading = styled(IonLoading)`
   --spinner-color: #044360;
   color: #044360;
@@ -22,17 +26,31 @@ export const ButtonPrimary = styled(IonButton)`
   max-height: 7vh;
 `;
 
-export const TitleSection = styled.div`
+export const TitleSection = styled.div<TitleSectionProps>`
   box-sizing: border-box;
   text-align: start;
-  line-height: 5vh;
+  line-height: 3.5vh;
   padding-left: 4vw;
-  height: 5vh;
-  border-left: 7px solid var(--ion-color-primarias-rosa);
+  height: 3.5vh;
+  border-left: 7px solid var(--ion-color-primarias-rosa-fraco);
   font-weight: 600;
   font-size: 3.5vh;
-  color: var(--ion-color-texto-branco);
+  color: ${(props) =>
+    props.color ? props.color : "var(--ion-color-texto-branco)"};
   margin-left: 7px;
+`;
+
+export const ComboBox = styled.select`
+  width: 100%;
+  height: 6vh;
+  background: var(--ion-color-content-background-light);
+  color: var(--ion-color-texto-cinza-input);
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  border: none;
 `;
 
 export { SearchBar };
