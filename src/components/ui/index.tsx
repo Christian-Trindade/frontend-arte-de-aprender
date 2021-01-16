@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import { IonLoading, IonButton } from "@ionic/react";
 
+import SearchBar from "./Searchbar";
+
 interface TitleSectionProps {
   color?: string;
 }
@@ -50,3 +52,5 @@ export const ComboBox = styled.select`
   line-height: 21px;
   border: none;
 `;
+
+export { SearchBar };
