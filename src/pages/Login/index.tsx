@@ -47,14 +47,14 @@ const Login: React.FC = () => {
       return;
     }
 
-    const loginData = {
-      email: email,
-      password: password,
+    const userData = {
+      email,
+      password,
     };
 
     setShowLoading(true);
 
-    let responseLogin = await login(loginData);
+    let responseLogin = await login(userData);
 
     if (responseLogin) {
       setShowLoading(false);
