@@ -26,6 +26,15 @@ export const ButtonPrimary = styled(IonButton)`
   max-height: 7vh;
 `;
 
+export const RoundedButton = styled(IonButton)`
+  --color: var(--ion-color-texto-branco);
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3vh;
+  text-transform: capitalize;
+`;
+
 export const TitleSection = styled.div<TitleSectionProps>`
   box-sizing: border-box;
   text-align: start;
@@ -51,6 +60,18 @@ export const ComboBox = styled.select`
   font-size: 14px;
   line-height: 21px;
   border: none;
+  padding: 3vw;
+`;
+
+export const ContentBox = styled.div`
+  background: var(--ion-color-content-background-light);
+  color: var(--ion-color-texto-cinza-input);
+  width: 100%;
+  overflow: scroll;
+  font-size: 2vh;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
 `;
 
 export { SearchBar };
