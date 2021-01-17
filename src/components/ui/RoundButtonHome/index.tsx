@@ -17,10 +17,10 @@ const Button = styled.button<Props>`
   background: ${(props) => props.background};
   box-shadow: ${(props) => props.shadow};
   border-radius: 1.5rem;
-
+  color: var(--ion-color-texto-branco);
   font-style: normal;
-  font-weight: 500;
-  font-size: 2.4rem;
+  font-weight: 600;
+  font-size: 3.5vh;
   outline: 0;
 `;
 
