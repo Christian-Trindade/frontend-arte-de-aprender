@@ -1,4 +1,9 @@
-import React, { useCallback, useState, ChangeEventHandler } from "react";
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  ChangeEventHandler,
+} from "react";
 import { IonFooter, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import * as S from "./styles";
 import { SearchBar, TopicContainer } from "../../components/ui";
@@ -10,28 +15,23 @@ import { useHistory } from "react-router";
 
 interface Props {
   setShowModal: Function;
+  idCategory?: number | string;
 }
-const SearchPage: React.FC<Props> = ({ setShowModal }) => {
+const ListCategory: React.FC<Props> = ({ setShowModal, idCategory }) => {
   const [list, setList] = useState([]);
   const [isRead, setRead] = useState(false);
   const history = useHistory();
 
-  const search = async (name: string) => {
-    let response: Keyable = await api.post("/topic/search", { name });
+  const getTopic = async () => {
+    let response: Keyable = await api.get(`/topic/list/${idCategory}`);
+
+    console.warn("topic", response);
     setList(response.data);
-    if (!isRead) {
-      setRead(true);
-    }
   };
 
-  const debouncedSave = useCallback(
-    _.debounce((nextValue) => search(nextValue), 1000),
-    []
-  );
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    debouncedSave(event.target.value);
-  };
+  useEffect(() => {
+    getTopic();
+  }, []);
 
   return (
     <IonPage>
@@ -39,10 +39,6 @@ const SearchPage: React.FC<Props> = ({ setShowModal }) => {
         color="content-background-light"
         className="ion-padding ion-text-center"
       >
-        <S.Header>
-          <S.TitleSearch>Buscar Matéria</S.TitleSearch>
-          <SearchBar onChange={handleChange} placeholder="Digite sua busca" />
-        </S.Header>
         <div>
           {list.length > 0 ? (
             list.map((el: Keyable) => (
@@ -66,9 +62,9 @@ const SearchPage: React.FC<Props> = ({ setShowModal }) => {
               </div>
             ))
           ) : isRead ? (
-            <h5>Nenhuma matéria encontrada</h5>
+            <h5>Nenhuma material encontrado</h5>
           ) : (
-            <h5>Faça sua busca</h5>
+            <h5>Carregando...</h5>
           )}
         </div>
       </S.StyledContent>
@@ -78,4 +74,4 @@ const SearchPage: React.FC<Props> = ({ setShowModal }) => {
   );
 };
 
-export default SearchPage;
+export default ListCategory;

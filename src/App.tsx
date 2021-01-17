@@ -149,16 +149,20 @@ const App: React.FC = () => {
                 component={RecLesson}
                 exact={true}
               />
+
               <PrivateRoute
                 path="/ListLesson"
                 component={ListLesson}
                 exact={true}
               />
+
               <PrivateRoute
                 path="/PageMusic"
                 component={PageMusic}
                 exact={true}
               />
+
+              <PrivateRoute path="/Library" component={Library} exact={true} />
             </IonRouterOutlet>
 
             <IonTabBar color="primaryBlue" slot="bottom">

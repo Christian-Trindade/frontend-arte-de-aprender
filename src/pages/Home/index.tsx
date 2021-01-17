@@ -12,12 +12,18 @@ import hexToRgbA from "../../utils/hextorgba";
 import * as S from "./styles";
 import BoxSpotline from "../../components/ui/BoxSpotline";
 import { Keyable } from "../../types/Keyable";
+import ListCategory from "../ListCategory";
 
 const Home: React.FC = () => {
   const [categories, setCategories] = useState([]);
   const [best, setBest] = useState([]);
   const [showModal, setShowModal] = useState(false);
+ 
+  const [showModalCategory, setShowModalCategory] = useState(false);
+  const [idCategory, setIdCategory] = useState(0);
+ 
   const [userData, setUserData] = useState<Keyable>(JSON.parse(getUserData()));
+ 
 
   const getCategory = async () => {
     let response: Keyable = await api.get("/subject/list");
@@ -33,7 +39,7 @@ const Home: React.FC = () => {
 
   const getBest = async () => {
     let response: Keyable = await api.get("/audio/list-best");
-
+    console.warn(response);
     return response.data;
   };
 
@@ -63,6 +69,11 @@ const Home: React.FC = () => {
     };
   }, []);
 
+  const setShowCat = (id: any) => {
+    setIdCategory(id);
+    setShowModalCategory(true);
+  };
+
   return (
     <IonPage>
       <S.StyledContent
@@ -77,7 +88,7 @@ const Home: React.FC = () => {
             <div onClick={() => logout()}>Sair</div>
           </S.TitleSearch>
           <SearchBar
-            readonly={true}
+            readOnly={true}
             onClick={() => setShowModal(true)}
             onChange={() => null}
             autoFocus={true}
@@ -95,10 +106,17 @@ const Home: React.FC = () => {
                   shadow={`0px 4px 5px ${el.shadow}`}
                   title={el.name}
                   key={el.name}
+                  id={el.id}
+                  action={setShowCat}
                 />
               ))
             : [1, 2, 3, 4, 5, 6].map((el) => (
-                <RoundButtonHome skeleton={true} key={el} />
+                <RoundButtonHome
+                  id={el}
+                  action={() => null}
+                  skeleton={true}
+                  key={el}
+                />
               ))}
         </IonRow>
 
@@ -110,9 +128,9 @@ const Home: React.FC = () => {
           {best.length > 0
             ? best.map((el: Keyable) => (
                 <BoxSpotline
-                  key={el.audio_id}
+                  key={el.id}
                   tumbnail={`https://plataform-music.s3-sa-east-1.amazonaws.com/imagens/topics/category/${el.subject_id}/${el.image}`}
-                  data={el.audio}
+                  data={el}
                 />
               ))
             : [0, 1, 2, 3, 4, 5, 6].map((el) => (
@@ -122,6 +140,12 @@ const Home: React.FC = () => {
 
         <IonModal isOpen={showModal} cssClass="my-custom-class">
           <SearchPage setShowModal={setShowModal} />
+        </IonModal>
+        <IonModal isOpen={showModalCategory} cssClass="my-custom-class">
+          <ListCategory
+            idCategory={idCategory}
+            setShowModal={setShowModalCategory}
+          />
         </IonModal>
       </S.StyledContent>
     </IonPage>

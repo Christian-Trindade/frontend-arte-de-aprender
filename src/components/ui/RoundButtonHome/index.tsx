@@ -7,16 +7,23 @@ interface Props {
   background?: string;
   shadow?: string;
   title?: string;
-  action?: () => void;
+  action: Function;
   skeleton?: boolean;
+  onClick?: Function;
+  id: number;
 }
 
-const Button = styled.button<Props>`
+interface PropsButton {
+  background?: string;
+  shadow?: string;
+}
+
+const Button = styled.button<PropsButton>`
   height: 6.6rem;
   width: 100%;
   background: ${(props) => props.background};
   box-shadow: ${(props) => props.shadow};
-  border-radius: 1.5rem;
+  border-radius: 1.5rem; 
   color: var(--ion-color-texto-branco);
   font-style: normal;
   font-weight: 600;
@@ -42,13 +49,18 @@ export const RoundButtonHome: React.FC<Props> = ({
   title,
   action,
   skeleton,
+  id,
 }) => {
   return (
     <IonCol size="6">
       {skeleton ? (
         <ButtonSkeleton />
       ) : (
-        <Button background={background} shadow={shadow} onClick={() => action}>
+        <Button
+          background={background}
+          shadow={shadow}
+          onClick={() => action(id)}
+        >
           {title}
         </Button>
       )}
