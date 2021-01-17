@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { IonLoading, IonButton } from "@ionic/react";
 
 import SearchBar from "./Searchbar";
-
 import TopicContainer from "./TopicContainer";
+import MusicPlayer from "./MusicPlayer";
 
 interface TitleSectionProps {
   color?: string;
@@ -62,7 +62,7 @@ export const ComboBox = styled.select`
   font-size: 14px;
   line-height: 21px;
   border: none;
-  padding: 3vw;
+  padding-left: 2vw;
 `;
 
 export const ContentBox = styled.div`
@@ -76,4 +76,4 @@ export const ContentBox = styled.div`
   font-weight: normal;
 `;
 
-export { SearchBar, TopicContainer };
+export { SearchBar, TopicContainer, MusicPlayer };

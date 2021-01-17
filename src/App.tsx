@@ -14,11 +14,16 @@ import { isAuthenticated } from "./services/auth";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import AddLesson from "./pages/AddLesson";
+import ReadResume from "./pages/AddLesson/ReadResume";
+import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
+import RecLesson from "./pages/AddLesson/RecLesson";
+
 
 import SearchPage from "./pages/Search";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
+import PageMusic from "./pages/pageMusic";
 
 // globals css
 import "./app.css";
@@ -103,6 +108,13 @@ const App: React.FC = () => {
             exact={true}
           />
 
+          <Route
+            path="/PageMusic"
+            component={PageMusic}
+            render={() => <CheckLogin />}
+            exact={true}
+          />
+
           <Route path="/" render={() => <CheckLogin />} exact={true} />
 
           <IonTabs
@@ -140,10 +152,36 @@ const App: React.FC = () => {
               />
 
               <PrivateRoute
+                path="/ReadResume/:id"
+                component={ReadResume}
+                exact={true}
+              />
+
+              <PrivateRoute
+                path="/ChoiceBeat/:id"
+                component={ChoiceBeat}
+                exact={true}
+              />
+
+              <PrivateRoute
+                path="/RecLesson/:beatId/:topicId"
+                component={RecLesson}
+                exact={true}
+              />
+
+              <PrivateRoute
+                path="/SearchPage"
+                component={SearchPage}
+                exact={true}
+              />
+              
+              <PrivateRoute
                 path="/ListLesson"
                 component={ListLesson}
                 exact={true}
               />
+              
+                p
             </IonRouterOutlet>
 
             <IonTabBar color="primaryBlue" slot="bottom">

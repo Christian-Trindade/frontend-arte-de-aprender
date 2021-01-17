@@ -2,7 +2,7 @@ import axios from "axios";
 import { logout, getToken } from "../auth";
 
 // configurações de chamada de api
-var server = "http://ccr.berap.com.br/api/";
+var server = "https://ccr.berap.com.br/api/";
 
 export const api = axios.create({
   baseURL: server,
