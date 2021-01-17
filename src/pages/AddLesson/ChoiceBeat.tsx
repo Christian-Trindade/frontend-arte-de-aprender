@@ -109,7 +109,7 @@ const ChoiceBeat: React.FC = () => {
         <>
           <p>Tópicos</p>
           <SearchBar
-            placeHolder="Exemplo: Revolta da Vacina"
+            placeholder="Exemplo: Revolta da Vacina"
             onChange={(e: Keyable) => debouncedOnChange(e.target.value)}
           />
           <StyledContentBox>
