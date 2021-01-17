@@ -56,7 +56,7 @@ export const StyledComboBox = styled(ComboBox)`
 
 export const StyledContentBox = styled(ContentBox)`
   margin-top: 2.4vh;
-  height: 40vh;
+  height: 37vh;
 `;
 
 export const ResumeContentBox = styled(ContentBox)`
@@ -66,7 +66,6 @@ export const ResumeContentBox = styled(ContentBox)`
   width: 93vw;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: -3vh;
 `;
 
 export const NextButton = styled(RoundedButton)<NextButtonProps>`
@@ -79,14 +78,14 @@ export const NextButtonContainer = styled.div`
   width: 45vw;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 7vh;
+  margin-top: 2vh;
 `;
 
 export const HeaderResumeBox = styled.div`
   background-color: var(--ion-color-content-background);
   width: 100vw;
-  height: 30vh;
-  padding-top: 7vh;
+  height: 26vh;
+  padding-top: 5vh;
   padding-left: 4vw;
   padding-right: 4vw;
   text-align: center;
@@ -141,6 +140,7 @@ export const RecContainer = styled.div<RecContainer>`
   }
 
   .micSvg {
+    max-height: 30vh;
     animation-name: ${(props) => (props.isStarted ? breatheAnimation : null)};
     animation-duration: 1s;
     animation-iteration-count: infinite;
