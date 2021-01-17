@@ -30,6 +30,11 @@
 <pre>
 <code>yarn install</code></pre>
 
+<p>Start Ionic Server</p>
+
+<pre>
+<code>Ionic Serve</code></pre>
+
 <h2>&nbsp;</h2>
 <a href="https://escutaae.vercel.app" target="_blank">link do app<a>
 <ul>
