@@ -17,6 +17,7 @@ const BoxShadow = styled.div`
 
 export const ButtonClose = styled.div`
   background-color: var(--ion-color-primarias-rosa-fraco);
+  color: var(--ion-color-texto-branco);
   width: 4rem;
   height: 4rem;
   box-shadow: 0px 4px 4px rgba(235, 122, 142, 0.5);
