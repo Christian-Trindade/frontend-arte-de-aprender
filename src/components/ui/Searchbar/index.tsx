@@ -12,6 +12,7 @@ const Box = styled.span`
     border: 0;
     padding-left: 1.5rem;
     box-sizing: border-box;
+    outline: 0;
 
     &::placeholder {
       font-size: 1.4rem;

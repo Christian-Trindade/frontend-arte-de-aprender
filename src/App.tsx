@@ -40,6 +40,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import SearchPage from "./pages/Search";
 
 interface PrivateRouteParams {
   component: React.FC;
@@ -110,6 +111,12 @@ const App: React.FC = () => {
               <PrivateRoute
                 path="/AddLesson"
                 component={AddLesson}
+                exact={true}
+              />
+
+              <PrivateRoute
+                path="/Search"
+                component={SearchPage}
                 exact={true}
               />
             </IonRouterOutlet>
