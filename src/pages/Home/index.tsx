@@ -6,6 +6,7 @@ import SearchPage from "../Search";
 import { SearchBar } from "../../components/ui";
 import RoundButtonHome from "../../components/ui/RoundButtonHome";
 import { api } from "../../services/api";
+import { getUserData } from "../../services/auth";
 import hexToRgbA from "../../utils/hextorgba";
 
 import * as S from "./styles";
@@ -16,6 +17,7 @@ const Home: React.FC = () => {
   const [categories, setCategories] = useState([]);
   const [best, setBest] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [userData, setUserData] = useState<Keyable>(JSON.parse(getUserData()));
 
   const getCategory = async () => {
     let response: Keyable = await api.get("/subject/list");
@@ -69,7 +71,7 @@ const Home: React.FC = () => {
       >
         <S.Header>
           <S.TitleSearch>
-            <span>Olá Hugo,</span>Buscar Matéria
+            <span>Olá {userData.name},</span>Buscar Matéria
           </S.TitleSearch>
           <SearchBar
             readonly={true}
