@@ -1,16 +1,16 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { debounce } from "lodash";
+import { useHistory, useParams } from "react-router-dom";
+
+import { IonAlert } from "@ionic/react";
 
 import { api } from "../../services/api";
 
-import { TitleSection, SearchBar, Loading } from "../../components/ui";
+import { TitleSection, MusicPlayer, Loading } from "../../components/ui";
 
 import {
   Container,
   StyledComboBox,
-  StyledContentBox,
   NextButton,
   NextButtonContainer,
 } from "./components/ui";
@@ -19,14 +19,26 @@ interface Keyable {
   [key: string]: any;
 }
 
+interface UrlParams {
+  id: string;
+}
+
+const baseBeatUrl = "https://plataform-music.s3-sa-east-1.amazonaws.com/beats/";
+
+const baseBeatImg =
+  "https://plataform-music.s3-sa-east-1.amazonaws.com/imagens/beats/";
+
 const ChoiceBeat: React.FC = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [seletedCategory, setSeletedCategory] = useState("");
   const [beatList, setBeatList] = useState([]);
   const [showLoading, setShowLoading] = useState<boolean>(false);
-  const [selectedTopic, setSelectedTopic] = useState<Keyable>({});
+  const [selectedBeat, setSelectedBeatd] = useState<Keyable>({});
+  const [iserror, setIserror] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   const history = useHistory();
+  const { id } = useParams<UrlParams>();
 
   useEffect(() => {
     setShowLoading(true);
@@ -35,7 +47,7 @@ const ChoiceBeat: React.FC = () => {
 
   useEffect(() => {
     setBeatList([]);
-    setSelectedTopic({});
+    setSelectedBeatd({});
     getBeats(seletedCategory);
   }, [seletedCategory]);
 
@@ -57,6 +69,7 @@ const ChoiceBeat: React.FC = () => {
       .get(`beat/list-category/${categoryBeatId}`)
       .then((response) => {
         setBeatList(response.data);
+        setSelectedBeatd(response.data[0]);
       })
       .catch((err) =>
         console.log("err in call rote", `beat/list-category/${categoryBeatId}`)
@@ -65,30 +78,26 @@ const ChoiceBeat: React.FC = () => {
     setShowLoading(false);
   };
 
-  //   const getFiltredTopics = async (text: string) => {
-  //     if (!text) {
-  //       getTopics(seletedSubject);
-  //       return;
-  //     }
+  const getBeatById = (id: string) => {
+    beatList.map((beat: Keyable) => {
+      if (beat.id == id) {
+        setSelectedBeatd(beat);
+      }
+    });
+  };
 
-  //     setShowLoading(true);
-
-  //     await api
-  //       .get(`topic/list/${seletedSubject}`)
-  //       .then((response) => {
-  //         setTopicList(response.data);
-  //       })
-  //       .catch((err) =>
-  //         console.log("err in call rote", `topic/list/${seletedSubject}`)
-  //       );
-
-  //     setShowLoading(false);
-  //   };
-
-  //   const debouncedOnChange = debounce(
-  //     (text: string) => getFiltredTopics(text),
-  //     500
-  //   );
+  const goToRec = () => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        history.push(`/RecLesson/${selectedBeat.id}/${id}`);
+      })
+      .catch((err) => {
+        setMessage("Você precisa permitir o microfone para gravar sua aula");
+        setIserror(true);
+        console.log(err);
+      });
+  };
 
   return (
     <Container>
@@ -97,42 +106,56 @@ const ChoiceBeat: React.FC = () => {
       </TitleSection>
 
       <StyledComboBox
-        name="material-select"
+        name="category-select"
         onChange={(e) => setSeletedCategory(e.target.value)}
       >
-        {categoryList.map((subject: Keyable) => (
-          <option value={subject.id}>{subject.name}</option>
+        {categoryList.map((category: Keyable) => (
+          <option value={category.id}>{category.name}</option>
         ))}
       </StyledComboBox>
 
-      {/* {seletedSubject && (
-        <>
-          <p>Tópicos</p>
-          <SearchBar
-            placeholder="Exemplo: Revolta da Vacina"
-            onChange={(e: Keyable) => debouncedOnChange(e.target.value)}
-          />
-          <StyledContentBox>
-            {topicList?.map((topic: Keyable) => (
-              <TopicContainer
-                data={{ ...topic, categoryId: seletedSubject }}
-                setSelectedTopic={setSelectedTopic}
-                selectedTopic={selectedTopic}
-              />
-            ))}
-          </StyledContentBox>
-          <NextButtonContainer>
-            <NextButton
-              disabled={Object.keys(selectedTopic).length == 0}
-              shape="round"
-              color="primarias-rosa-fraco"
-              onClick={() => history.push(`ReadResume/${selectedTopic.id}`)}
-            >
-              Próximo
-            </NextButton>
-          </NextButtonContainer>
-        </>
-      )} */}
+      {beatList.length > 0 && (
+        <StyledComboBox
+          name="beat-select"
+          onChange={(e: Keyable) => {
+            getBeatById(e.target.value);
+          }}
+        >
+          {beatList.map((beat: Keyable) => (
+            <option value={beat.id}>{beat.name}</option>
+          ))}
+        </StyledComboBox>
+      )}
+
+      <br />
+      <br />
+
+      <MusicPlayer
+        data={{
+          selectedBeat,
+          baseBeatUrl,
+          image: `${baseBeatImg}${selectedBeat.image}`,
+        }}
+      />
+
+      <NextButtonContainer>
+        <NextButton
+          shape="round"
+          color="primarias-rosa-fraco"
+          onClick={() => goToRec()}
+        >
+          Próximo
+        </NextButton>
+      </NextButtonContainer>
+
+      <IonAlert
+        isOpen={iserror}
+        onDidDismiss={() => setIserror(false)}
+        header={"Opa! esqueceu algo?"}
+        message={message}
+        buttons={["OK"]}
+        mode="ios"
+      />
 
       <Loading
         isOpen={showLoading}

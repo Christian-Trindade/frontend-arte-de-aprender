@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { IonLoading, IonButton } from "@ionic/react";
 
 import SearchBar from "./Searchbar";
-
 import TopicContainer from "./TopicContainer";
+import MusicPlayer from "./MusicPlayer";
 
 interface TitleSectionProps {
   color?: string;
@@ -76,4 +76,4 @@ export const ContentBox = styled.div`
   font-weight: normal;
 `;
 
-export { SearchBar, TopicContainer };
+export { SearchBar, TopicContainer, MusicPlayer };

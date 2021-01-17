@@ -5,7 +5,7 @@ export const isAuthenticated = () =>
   window.localStorage.getItem(TOKEN_KEY) !== null;
 
 export const getToken = () => window.localStorage.getItem(TOKEN_KEY);
-export const getUserData = () => window.localStorage.getItem("user");
+export const getUserData = () => window.localStorage.getItem("user") || "";
 
 export const login = async (params: object) => {
   let Issuccess: boolean = false;
