@@ -29,15 +29,14 @@ export const create = async (params: object) => {
 
   await api
     .post("create", params)
-    .then((response) => {
+    .then(async (response) => {
       window.localStorage.setItem(TOKEN_KEY, response.data.access_token);
       Issuccess = true;
+      await getServerUserData();
     })
     .catch((error) => {
       console.error(error);
     });
-
-  await getServerUserData();
 
   return Issuccess;
 };

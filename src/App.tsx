@@ -63,7 +63,6 @@ const App: React.FC = () => {
     exact,
   }) => {
     if (isAuthenticated()) {
-      console.log("entrou aqui home 2");
       return (
         <Route
           component={isAuthenticated() ? component : Login}
@@ -72,17 +71,14 @@ const App: React.FC = () => {
         />
       );
     } else {
-      console.log("entrou aqui login 2");
       return <Redirect to={"/Login"} />;
     }
   };
 
   const CheckLogin: React.FC = () => {
     if (isAuthenticated()) {
-      console.log("entrou aqui home");
       return <Redirect to={"/Home"} />;
     } else {
-      console.log("entrou aqui login");
       return <Redirect to={"/Login"} />;
     }
   };

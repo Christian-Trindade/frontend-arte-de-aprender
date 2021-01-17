@@ -27,7 +27,7 @@ interface UrlParams {
 let rec: Keyable = {};
 let blob: Blob;
 
-const baseBeatUrl = "https://plataform-music.s3-sa-east-1.amazonaws.com/beats/";
+const baseBeatUrl = "../assets/beats/";
 
 let recTimer: NodeJS.Timeout;
 
@@ -109,29 +109,53 @@ const RecLesson: React.FC = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        let audioChunks: any = [];
-        rec = new MediaRecorder(stream);
+        if (beat.current) {
+          let audioChunks: any = [];
 
-        rec.ondataavailable = (e: Keyable) => {
-          audioChunks.push(e.data);
-          if (rec.state == "inactive") {
-            blob = new Blob(audioChunks, { type: "audio/x-mpeg-3" });
+          let audioContext = new window.AudioContext();
+          let microphone = audioContext.createMediaStreamSource(stream);
 
-            if (recordedAudio.current) {
-              recordedAudio.current.src = URL.createObjectURL(blob);
-              recordedAudio.current.autoplay = true;
+          let backgroundMusic = audioContext.createMediaElementSource(
+            beat.current
+          );
+
+          let gainNodeBeat = audioContext.createGain();
+          backgroundMusic.connect(gainNodeBeat);
+          gainNodeBeat.gain.setValueAtTime(0.45, audioContext.currentTime);
+
+          // envia o beat de volta ao audio element
+          gainNodeBeat.connect(audioContext.destination);
+
+          let mixedOutput = audioContext.createMediaStreamDestination();
+
+          microphone.connect(mixedOutput);
+          gainNodeBeat.connect(mixedOutput);
+
+          let streamBeat = mixedOutput.stream;
+
+          rec = new MediaRecorder(streamBeat);
+
+          rec.ondataavailable = (e: Keyable) => {
+            audioChunks.push(e.data);
+            if (rec.state == "inactive") {
+              blob = new Blob(audioChunks, { type: "audio/x-mpeg-3" });
+
+              if (recordedAudio.current) {
+                recordedAudio.current.src = URL.createObjectURL(blob);
+                recordedAudio.current.autoplay = true;
+              }
             }
-          }
-        };
+          };
 
-        rec.start();
-        setIsRecording(true);
+          rec.start();
+          setIsRecording(true);
 
-        let timer = 0;
-        recTimer = setInterval(() => {
-          timer++;
-          setTimer(timer);
-        }, 1000);
+          let timer = 0;
+          recTimer = setInterval(() => {
+            timer++;
+            setTimer(timer);
+          }, 1000);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -173,12 +197,15 @@ const RecLesson: React.FC = () => {
             ref={beat}
             id="beat"
             className="beat"
+            crossOrigin="Anonymous"
             src={`${baseBeatUrl}${beatData.url}`}
           />
+
           <audio
             ref={recordedAudio}
             id="recordedAudio"
             src="testando"
+            crossOrigin="Anonymous"
             className="beat"
           />
         </div>

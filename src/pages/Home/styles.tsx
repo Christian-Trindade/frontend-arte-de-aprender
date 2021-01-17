@@ -16,6 +16,10 @@ export const TitleSearch = styled.h1`
   font-weight: bold;
   color: var(--ion-color-primarias-rosa);
   text-align: left;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
   span {
     display: block;
     color: var(--ion-color-texto-preto);

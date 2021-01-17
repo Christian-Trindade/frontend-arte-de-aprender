@@ -52,7 +52,10 @@ const AddLesson: React.FC = () => {
         setSelectedSubject(response.data[0].id);
         getTopics(response.data[0].id);
       })
-      .catch((err) => console.log("err in call rote subject/list"));
+      .catch((err) => {
+        setShowLoading(false);
+        console.log("err in call rote subject/list");
+      });
   };
 
   const getTopics = async (subjectId: string) => {
@@ -63,9 +66,11 @@ const AddLesson: React.FC = () => {
       .then((response) => {
         setTopicList(response.data);
       })
-      .catch((err) =>
-        console.log("err in call rote", `topic/list/${subjectId}`)
-      );
+      .catch((err) => {
+        setShowLoading(false);
+
+        console.log("err in call rote", `topic/list/${subjectId}`);
+      });
 
     setShowLoading(false);
   };
@@ -113,10 +118,10 @@ const AddLesson: React.FC = () => {
       {seletedSubject && (
         <>
           <p>Tópicos</p>
-          <SearchBar
+          {/* <SearchBar
             placeholder="Exemplo: Revolta da Vacina"
             onChange={(e: Keyable) => debouncedOnChange(e.target.value)}
-          />
+          /> */}
           <StyledContentBox>
             {topicList?.map((topic: Keyable) => (
               <TopicContainer
