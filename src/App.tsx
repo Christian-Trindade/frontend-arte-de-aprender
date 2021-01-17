@@ -17,6 +17,7 @@ import Library from "./pages/Library";
 import AddLesson from "./pages/AddLesson";
 import ReadResume from "./pages/AddLesson/ReadResume";
 import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
+import SearchPage from "./pages/Search";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
@@ -106,8 +107,20 @@ const App: React.FC = () => {
               <PrivateRoute path="/Library" component={Library} exact={true} />
 
               <PrivateRoute
+                path="/SearchPage"
+                component={SearchPage}
+                exact={true}
+              />
+              
+                            <PrivateRoute
                 path="/AddLesson"
                 component={AddLesson}
+                exact={true}
+              />
+              
+                            <PrivateRoute
+                path="/ReadResume/:id"
+                component={ReadResume}
                 exact={true}
               />
 

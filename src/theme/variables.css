@@ -6,6 +6,7 @@ http://ionicframework.com/docs/theming/ */
   font-size: 62.5%;
   text-size-adjust: 100%;
   box-sizing: border-box;
+  outline: 0;
 
   /** primary **/
   --ion-color-primary: #3880ff;
