@@ -3,6 +3,7 @@ import React from "react";
 
 import styled, { keyframes } from "styled-components";
 import { Keyable } from "../../../types/Keyable";
+import { useHistory } from "react-router";
 
 interface Props {
   title?: string;
@@ -50,7 +51,10 @@ export const BoxSpotline: React.FC<Props> = ({
   action,
   tumbnail,
   skeleton = false,
+  data,
 }) => {
+  const history = useHistory();
+
   if (skeleton) {
     return (
       <BoxSkeleton>
@@ -62,7 +66,18 @@ export const BoxSpotline: React.FC<Props> = ({
     );
   }
   return (
-    <Box tumbnail={tumbnail}>
+    <Box
+      tumbnail={tumbnail}
+      onClick={() => {
+        history.push({
+          pathname: "/ListLesson",
+          state: {
+            id: title,
+            data: data,
+          },
+        });
+      }}
+    >
       <Icon
         src="assets/vectors/play-circle.svg"
         alt="Imagem de um icone de okay"

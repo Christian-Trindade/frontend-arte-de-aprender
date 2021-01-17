@@ -134,7 +134,7 @@ const AddLesson: React.FC = () => {
           </StyledContentBox>
           <NextButtonContainer>
             <NextButton
-              disabled={Object.keys(selectedTopic).length == 0}
+              disabled={Object.keys(selectedTopic).length === 0}
               shape="round"
               color="primarias-rosa-fraco"
               onClick={() => history.push(`ReadResume/${selectedTopic.id}`)}

@@ -5,7 +5,7 @@ interface SearchBarProps {
   onChange?: ChangeEventHandler;
   onClick?: () => void;
   placeholder: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   autoFocus?: boolean;
 }
 

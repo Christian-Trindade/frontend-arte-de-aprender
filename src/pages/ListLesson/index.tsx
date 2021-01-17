@@ -1,31 +1,67 @@
-import React, { useEffect, useState } from "react";
-import { IonFooter, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  IonBackButton,
+  IonButtons,
+  IonFooter,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import * as S from "./styles";
 import { Keyable } from "../../types/Keyable";
 import { api } from "../../services/api";
+import { useHistory, useParams } from "react-router";
 
-interface Props {}
+interface Props {
+  location?: any;
+}
 
-const ListLesson: React.FC<Props> = () => {
+interface UrlParams {
+  id: string;
+}
+
+type Prop = {
+  id: string;
+};
+
+const ListLesson: React.FC<Props> = ({ location }) => {
+  const beat = useRef<HTMLAudioElement>(null);
+  const baseRyhmeUrl = "https://plataform-music.s3-sa-east-1.amazonaws.com";
+
+  const history = useHistory();
+  //const { id } = useParams<UrlParams>();
+
+  const { id, data } = location.state;
+
+  console.warn(id, data);
   const [list, setList] = useState([]);
   const [lessonFocus, setLessonFocus] = useState({});
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const chooseLesson = (lesson: object) => {
-    setIsPlaying(true);
-    setLessonFocus(lesson);
-    // let beat: HTMLAudioElement = document.getElementById("beat");
+  let indexLesson: number = 0;
 
-    /*   if (beat) {
-      // beat.src = lesson?.url;
-      beat.loop = true;
-      beat.play();
-    }*/
+  const chooseLesson = (lesson: Keyable) => {
+    // setLessonFocus(lesson);
+    console.warn("Escolha", lesson);
+    if (beat.current) {
+      beat.current.pause();
+      beat.current.src = `${baseRyhmeUrl}/topic/${data.id}/user/${lesson.user_id}/${lesson.url}`;
+      beat.current.loop = false;
+      beat.current.play();
+      setIsPlaying(true);
+    }
   };
 
-  const getLessons = async (id: number) => {
+  const getLessons = async (id: any) => {
+    console.warn("o id", id);
     let response: Keyable = await api.get(`/audio/list-topic/${id}`);
+
+    const resumeBox = document.getElementById("resume-box");
+    if (resumeBox) {
+      resumeBox.innerHTML = data.resume;
+    }
 
     console.warn(response.data);
     return response.data;
@@ -33,15 +69,54 @@ const ListLesson: React.FC<Props> = () => {
 
   useEffect(() => {
     let mounted = true;
-    getLessons(26).then((resp) => {
+    getLessons(data.id).then((resp) => {
       if (mounted) {
         setList(resp);
+        if (resp.length > 0) {
+          let lesson = resp[0];
+          if (beat.current) {
+            beat.current.src = `${baseRyhmeUrl}/topic/${data.id}/user/${lesson.user_id}/${lesson.url}`;
+          }
+        }
       }
     });
     return function cleanup() {
       mounted = false;
     };
   }, []);
+
+  const togglePlay = () => {
+    if (beat.current) {
+      if (isPlaying) {
+        setIsPlaying(false);
+        beat.current.pause();
+      } else {
+        setIsPlaying(true);
+        beat.current.play();
+      }
+    }
+  };
+
+  const ctrlLesson = (isNext: boolean) => {
+    let size: number = list.length;
+
+    if (isNext) {
+      if (size > indexLesson + 1) {
+        indexLesson += 1;
+      } else {
+        return false;
+      }
+    } else {
+      if (indexLesson > 0) {
+        indexLesson -= 0;
+      }
+    }
+
+    let lesson = list[indexLesson];
+
+    console.warn("Lesson@@@@@", lesson);
+    chooseLesson(lesson);
+  };
 
   return (
     <IonPage>
@@ -54,19 +129,15 @@ const ListLesson: React.FC<Props> = () => {
           <div className="container">
             <S.BoxTumbnails>
               <img
-                src="https://plataform-music.s3-sa-east-1.amazonaws.com/imagens/topics/category/3/era-vargas.jpg"
+                src={`https://plataform-music.s3-sa-east-1.amazonaws.com/imagens/topics/category/${data.subject_id}/${data.image}`}
                 alt=""
                 width="130"
                 height="130"
               />
             </S.BoxTumbnails>
             <S.BoxText>
-              <h2>A Revolta de Vacina</h2>
-              <p>
-                A Revolta da Vacina foi um motim popular ocorrido entre 10 e 16
-                de novembro de 1904 na cidade do Rio de Janeiro, então capital
-                do Brasil.
-              </p>
+              <h2>{data.name}</h2>
+              <span id="resume-box"></span>
             </S.BoxText>
           </div>
         </S.BoxTop>
@@ -77,28 +148,31 @@ const ListLesson: React.FC<Props> = () => {
 
           <S.ListContainer>
             <ul>
-              {/*
-                    beat_id: 1
-                    created_at: "2021-01-17T15:26:08.000000Z"
-                    id: 3
-                    title: "teste"
-                    topic_id: 26
-                    updated_at: "2021-01-17T15:26:08.000000Z"
-                    url: null
-                    user_id: 4
-                    */}
-              {list.map((el: Keyable, index) => {
-                return (
-                  <li key={el.id} onClick={() => chooseLesson(el)}>
-                    <div>
-                      <p>
-                        {index + 1}. {el.title}
-                      </p>
-                      <p className="description">Autor: {el.user_name}</p>
-                    </div>
-                  </li>
-                );
-              })}
+              {list.length > 0 ? (
+                list.map((el: Keyable, index) => {
+                  return (
+                    <li key={el.id} onClick={() => chooseLesson(el)}>
+                      <div>
+                        <p>
+                          {index + 1}. {el.title}
+                        </p>
+                        <p className="description">Autor: {el.user_name}</p>
+                      </div>
+                    </li>
+                  );
+                })
+              ) : (
+                <p
+                  onClick={() => history.push("/AddLesson")}
+                  style={{ fontSize: "2rem" }}
+                >
+                  Ainda não temos nada para mostrar nesse tópico. <br />
+                  <br />
+                  <span style={{ color: "var(--ion-color-primarias-rosa)" }}>
+                    Grave agora uma explicação!
+                  </span>
+                </p>
+              )}
             </ul>
           </S.ListContainer>
         </S.Container>
@@ -106,13 +180,18 @@ const ListLesson: React.FC<Props> = () => {
           style={{ opacity: 0 }}
           src="/beats/beat.webm"
           id="beat"
+          ref={beat}
           controls
         />
       </S.StyledContent>
       <IonFooter>
         <S.BoxFooter>
-          <S.ArrowImage src="assets/vectors/arrow-left.svg" />
-          <S.ButtonPlayMain>
+          <S.ArrowImage
+            src="assets/vectors/arrow-left.svg"
+            onClick={() => ctrlLesson(false)}
+            style={{ opacity: list.length > 0 ? 1 : 0.5 }}
+          />
+          <S.ButtonPlayMain onClick={() => togglePlay()}>
             {isPlaying ? (
               <img
                 src="assets/vectors/pause.svg"
@@ -130,7 +209,11 @@ const ListLesson: React.FC<Props> = () => {
               />
             )}
           </S.ButtonPlayMain>
-          <S.ArrowImage src="assets/vectors/arrow-right.svg" />
+          <S.ArrowImage
+            src="assets/vectors/arrow-right.svg"
+            onClick={() => ctrlLesson(true)}
+            style={{ opacity: list.length > 0 ? 1 : 0.5 }}
+          />
         </S.BoxFooter>
       </IonFooter>
     </IonPage>
