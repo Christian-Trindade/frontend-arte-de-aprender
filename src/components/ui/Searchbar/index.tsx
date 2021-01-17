@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 interface SearchBarProps {
   onChange: ChangeEventHandler;
-  placeHolder: string;
+  placeholder: string;
 }
 
 const Box = styled.span`

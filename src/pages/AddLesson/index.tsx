@@ -105,21 +105,24 @@ const AddLesson: React.FC = () => {
         onChange={(e) => setSelectedSubject(e.target.value)}
       >
         {subjectList.map((subject: Keyable) => (
-          <option value={subject.id}>{subject.name}</option>
+          <option value={subject.id} key={subject.id}>
+            {subject.name}
+          </option>
         ))}
       </StyledComboBox>
       {seletedSubject && (
         <>
           <p>Tópicos</p>
           <SearchBar
-            placeHolder="Exemplo: Revolta da Vacina"
+            placeholder="Exemplo: Revolta da Vacina"
             onChange={(e: Keyable) => debouncedOnChange(e.target.value)}
           />
           <StyledContentBox>
             {topicList?.map((topic: Keyable) => (
               <TopicContainer
+                key={topic.id}
                 data={topic}
-                onClick={() => setSelectedTopic(topic)}
+                setSelectedTopic={setSelectedTopic}
                 isSelected={selectedTopic.id == topic.id}
               />
             ))}

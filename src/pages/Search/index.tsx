@@ -12,7 +12,7 @@ const SearchPage: React.FC = () => {
       >
         <S.Header>
           <S.TitleSearch>Buscar Matéria</S.TitleSearch>
-          <SearchBar placeholder="Digite sua busca" />
+          <SearchBar onChange={() => null} placeholder="Digite sua busca" />
         </S.Header>
       </S.StyledContent>
     </IonPage>

@@ -16,18 +16,19 @@ const Home: React.FC = () => {
 
   const getCategory = async () => {
     let response: Keyable = await api.get("/subject/list");
-    console.warn("@@@@@@@@@@@=>", response);
+
     let temp = response?.data?.map((elem: Keyable) => {
       return {
         ...elem,
         shadow: hexToRgbA(elem.color),
       };
     });
+
     setCategories(temp);
   };
+
   const getBest = async () => {
     let response: Keyable = await api.get("/audio/list-best");
-
     setBest(response.data);
   };
 
@@ -46,7 +47,7 @@ const Home: React.FC = () => {
           <S.TitleSearch>
             <span>Olá Hugo,</span>Buscar Matéria
           </S.TitleSearch>
-          <SearchBar onChange={() => null} placeHolder="Digite sua busca" />
+          <SearchBar onChange={() => null} placeholder="Digite sua busca" />
         </S.Header>
         <S.TitleSectionUI color={"var(--ion-color-texto-preto)"}>
           Categorias

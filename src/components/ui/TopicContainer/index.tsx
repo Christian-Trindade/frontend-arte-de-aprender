@@ -7,9 +7,9 @@ interface Keyable {
 }
 
 interface TopicContainerProps {
-  onClick: Function;
   data: Keyable;
   isSelected: boolean;
+  setSelectedTopic: Function;
 }
 
 const baseImageUrl =
@@ -17,17 +17,15 @@ const baseImageUrl =
 
 const TopicContainer: React.FC<TopicContainerProps> = ({
   data,
-  onClick,
   isSelected,
+  setSelectedTopic,
 }) => {
   return (
     <TopicContainerDiv
       color="background-light"
       lines="none"
-      onClick={() => {
-        onClick();
-      }}
       isSelected={isSelected}
+      onClick={() => setSelectedTopic(data)}
     >
       <div>
         <TopicImage src={`${baseImageUrl}${data.subject_id}/${data.image}`} />
