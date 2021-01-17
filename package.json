@@ -52,7 +52,8 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.6"
+    "@capacitor/cli": "2.4.6",
+    "@types/lodash": "^4.14.167"
   },
   "description": "An Ionic project"
 }

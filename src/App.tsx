@@ -15,6 +15,8 @@ import { isAuthenticated } from "./services/auth";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import AddLesson from "./pages/AddLesson";
+import ReadResume from "./pages/AddLesson/ReadResume";
+import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
@@ -57,7 +59,6 @@ const App: React.FC = () => {
     exact,
   }) => {
     if (isAuthenticated()) {
-      console.log("entrou aqui home 2");
       return (
         <Route
           component={isAuthenticated() ? component : Login}
@@ -66,17 +67,14 @@ const App: React.FC = () => {
         />
       );
     } else {
-      console.log("entrou aqui login 2");
       return <Redirect to={"/Login"} />;
     }
   };
 
   const CheckLogin: React.FC = () => {
     if (isAuthenticated()) {
-      console.log("entrou aqui home");
       return <Redirect to={"/Home"} />;
     } else {
-      console.log("entrou aqui login");
       return <Redirect to={"/Login"} />;
     }
   };
@@ -110,6 +108,18 @@ const App: React.FC = () => {
               <PrivateRoute
                 path="/AddLesson"
                 component={AddLesson}
+                exact={true}
+              />
+
+              <PrivateRoute
+                path="/ReadResume/:id"
+                component={ReadResume}
+                exact={true}
+              />
+
+              <PrivateRoute
+                path="/ChoiceBeat/:id"
+                component={ChoiceBeat}
                 exact={true}
               />
             </IonRouterOutlet>

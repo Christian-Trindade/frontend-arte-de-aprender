@@ -1,5 +1,10 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import styled from "styled-components";
+
+interface SearchBarProps {
+  onChange: ChangeEventHandler;
+  placeHolder: string;
+}
 
 const Box = styled.span`
   display: flex;
@@ -28,12 +33,10 @@ const Box = styled.span`
   }
 `;
 
-// type Props = { placeholder: string };
-
-const SearchBar = ({ ...props }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onChange, ...rest }) => {
   return (
     <Box>
-      <input type="text" {...props} />
+      <input onChange={onChange} type="text" {...rest} />
       <button>
         <img
           src="assets/vectors/icon_searchbar.svg"

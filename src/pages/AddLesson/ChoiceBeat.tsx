@@ -5,12 +5,7 @@ import { debounce } from "lodash";
 
 import { api } from "../../services/api";
 
-import {
-  TitleSection,
-  SearchBar,
-  TopicContainer,
-  Loading,
-} from "../../components/ui";
+import { TitleSection, SearchBar, Loading } from "../../components/ui";
 
 import {
   Container,
@@ -24,10 +19,10 @@ interface Keyable {
   [key: string]: any;
 }
 
-const AddLesson: React.FC = () => {
-  const [subjectList, setSubjectList] = useState([]);
-  const [seletedSubject, setSelectedSubject] = useState("");
-  const [topicList, setTopicList] = useState([]);
+const ChoiceBeat: React.FC = () => {
+  const [categoryList, setCategoryList] = useState([]);
+  const [seletedCategory, setSeletedCategory] = useState("");
+  const [beatList, setBeatList] = useState([]);
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const [selectedTopic, setSelectedTopic] = useState<Keyable>({});
 
@@ -39,76 +34,78 @@ const AddLesson: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setTopicList([]);
+    setBeatList([]);
     setSelectedTopic({});
-    getTopics(seletedSubject);
-  }, [seletedSubject]);
+    getBeats(seletedCategory);
+  }, [seletedCategory]);
 
   const getCategory = async () => {
     api
-      .get("subject/list")
+      .get("beat-category/list-all")
       .then((response) => {
-        setSubjectList(response.data);
-        setSelectedSubject(response.data[0].id);
-        getTopics(response.data[0].id);
+        setCategoryList(response.data);
+        setSeletedCategory(response.data[0].id);
+        getBeats(response.data[0].id);
       })
-      .catch((err) => console.log("err in call rote subject/list"));
+      .catch((err) => console.log("err in call rote beat-category/list-all"));
   };
 
-  const getTopics = async (subjectId: string) => {
+  const getBeats = async (categoryBeatId: string) => {
     setShowLoading(true);
 
     await api
-      .get(`topic/list/${subjectId}`)
+      .get(`beat/list-category/${categoryBeatId}`)
       .then((response) => {
-        setTopicList(response.data);
+        setBeatList(response.data);
       })
       .catch((err) =>
-        console.log("err in call rote", `topic/list/${subjectId}`)
+        console.log("err in call rote", `beat/list-category/${categoryBeatId}`)
       );
 
     setShowLoading(false);
   };
 
-  const getFiltredTopics = async (text: string) => {
-    if (!text) {
-      getTopics(seletedSubject);
-      return;
-    }
+  //   const getFiltredTopics = async (text: string) => {
+  //     if (!text) {
+  //       getTopics(seletedSubject);
+  //       return;
+  //     }
 
-    setShowLoading(true);
+  //     setShowLoading(true);
 
-    await api
-      .get(`topic/list/${seletedSubject}`)
-      .then((response) => {
-        setTopicList(response.data);
-      })
-      .catch((err) =>
-        console.log("err in call rote", `topic/list/${seletedSubject}`)
-      );
+  //     await api
+  //       .get(`topic/list/${seletedSubject}`)
+  //       .then((response) => {
+  //         setTopicList(response.data);
+  //       })
+  //       .catch((err) =>
+  //         console.log("err in call rote", `topic/list/${seletedSubject}`)
+  //       );
 
-    setShowLoading(false);
-  };
+  //     setShowLoading(false);
+  //   };
 
-  const debouncedOnChange = debounce(
-    (text: string) => getFiltredTopics(text),
-    500
-  );
+  //   const debouncedOnChange = debounce(
+  //     (text: string) => getFiltredTopics(text),
+  //     500
+  //   );
 
   return (
     <Container>
       <TitleSection color="var(--ion-color-texto-preto)">
-        Adicionar
+        Escolha um Beat
       </TitleSection>
+
       <StyledComboBox
         name="material-select"
-        onChange={(e) => setSelectedSubject(e.target.value)}
+        onChange={(e) => setSeletedCategory(e.target.value)}
       >
-        {subjectList.map((subject: Keyable) => (
+        {categoryList.map((subject: Keyable) => (
           <option value={subject.id}>{subject.name}</option>
         ))}
       </StyledComboBox>
-      {seletedSubject && (
+
+      {/* {seletedSubject && (
         <>
           <p>Tópicos</p>
           <SearchBar
@@ -118,9 +115,9 @@ const AddLesson: React.FC = () => {
           <StyledContentBox>
             {topicList?.map((topic: Keyable) => (
               <TopicContainer
-                data={topic}
-                onClick={() => setSelectedTopic(topic)}
-                isSelected={selectedTopic.id == topic.id}
+                data={{ ...topic, categoryId: seletedSubject }}
+                setSelectedTopic={setSelectedTopic}
+                selectedTopic={selectedTopic}
               />
             ))}
           </StyledContentBox>
@@ -135,7 +132,7 @@ const AddLesson: React.FC = () => {
             </NextButton>
           </NextButtonContainer>
         </>
-      )}
+      )} */}
 
       <Loading
         isOpen={showLoading}
@@ -148,4 +145,4 @@ const AddLesson: React.FC = () => {
   );
 };
 
-export default AddLesson;
+export default ChoiceBeat;

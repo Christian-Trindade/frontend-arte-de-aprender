@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 
 import { TopicContainerDiv, TopicImage } from "./ui";
 
@@ -8,9 +7,9 @@ interface Keyable {
 }
 
 interface TopicContainerProps {
-  setSelectedTopic: Function;
+  onClick: Function;
   data: Keyable;
-  selectedTopic: Keyable;
+  isSelected: boolean;
 }
 
 const baseImageUrl =
@@ -18,20 +17,20 @@ const baseImageUrl =
 
 const TopicContainer: React.FC<TopicContainerProps> = ({
   data,
-  setSelectedTopic,
-  selectedTopic,
+  onClick,
+  isSelected,
 }) => {
   return (
     <TopicContainerDiv
       color="background-light"
       lines="none"
       onClick={() => {
-        setSelectedTopic(data);
+        onClick();
       }}
-      isSelected={selectedTopic.id == data.id}
+      isSelected={isSelected}
     >
       <div>
-        <TopicImage src={`${baseImageUrl}${data.categoryId}/${data.image}`} />
+        <TopicImage src={`${baseImageUrl}${data.subject_id}/${data.image}`} />
       </div>
       <div>
         <div className="title">{data.name}</div>
