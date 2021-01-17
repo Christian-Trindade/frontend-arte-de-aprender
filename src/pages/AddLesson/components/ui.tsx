@@ -1,7 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-import { IonItem } from "@ionic/react";
-
 import { ComboBox, ContentBox, RoundedButton } from "../../../components/ui";
 
 interface NextButtonProps {
@@ -12,9 +10,19 @@ interface TopicContainerProps {
   isSelected: boolean;
 }
 
+interface RecContainer {
+  isStarted: boolean;
+}
+
 const enterAnimation = keyframes`
  0% { margin-left: 100vw;}
  100% {margin-left: 0vw;}
+`;
+
+const breatheAnimation = keyframes`
+ 0% {  opacity: 1 }
+ 50% {  opacity: 0.2 }
+ 100% {  opacity: 1 }
 `;
 
 export const Container = styled.div`
@@ -117,4 +125,54 @@ export const ResumeImage = styled.img`
   border-radius: 2vh;
   max-height: 15vh;
   min-width: 26vw;
+`;
+
+export const RecContainer = styled.div<RecContainer>`
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 4vh;
+  text-align: center;
+
+  .beat {
+    opacity: 0;
+  }
+
+  .micSvg {
+    animation-name: ${(props) => (props.isStarted ? breatheAnimation : null)};
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+
+  .timer {
+    margin-top: 2vh;
+    color: var(--ion-color-tabs-icone-desativado);
+    font-size: 6vh;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .title {
+    margin-top: 4vh;
+    font-size: 4vh;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+
+    animation-name: ${(props) => (props.isStarted ? breatheAnimation : null)};
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+
+  .description {
+    margin-top: 2vh;
+    color: var(--ion-color-texto-cinza-input);
+    font-size: 1.6vh;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+  }
 `;
