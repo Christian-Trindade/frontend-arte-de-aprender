@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -18,6 +17,7 @@ import AddLesson from "./pages/AddLesson";
 import ReadResume from "./pages/AddLesson/ReadResume";
 import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
 import RecLesson from "./pages/AddLesson/RecLesson";
+
 
 import SearchPage from "./pages/Search";
 
@@ -46,6 +46,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import ListLesson from "./pages/ListLesson";
 
 interface PrivateRouteParams {
   component: React.FC;
@@ -65,6 +66,7 @@ const App: React.FC = () => {
     exact,
   }) => {
     if (isAuthenticated()) {
+      console.log("entrou aqui home 2");
       return (
         <Route
           component={isAuthenticated() ? component : Login}
@@ -73,14 +75,17 @@ const App: React.FC = () => {
         />
       );
     } else {
+      console.log("entrou aqui login 2");
       return <Redirect to={"/Login"} />;
     }
   };
 
   const CheckLogin: React.FC = () => {
     if (isAuthenticated()) {
+      console.log("entrou aqui home");
       return <Redirect to={"/Home"} />;
     } else {
+      console.log("entrou aqui login");
       return <Redirect to={"/Login"} />;
     }
   };
@@ -120,7 +125,7 @@ const App: React.FC = () => {
                 let tab = document.getElementById(tabItem);
 
                 if (tab) {
-                  if (tabItem == e.detail.tab) {
+                  if (tabItem === e.detail.tab) {
                     tab.setAttribute(
                       "src",
                       `../assets/vectors/${e.detail.tab}_icon_active.svg`
@@ -169,6 +174,14 @@ const App: React.FC = () => {
                 component={SearchPage}
                 exact={true}
               />
+              
+              <PrivateRoute
+                path="/ListLesson"
+                component={ListLesson}
+                exact={true}
+              />
+              
+                p
             </IonRouterOutlet>
 
             <IonTabBar color="primaryBlue" slot="bottom">
@@ -176,8 +189,9 @@ const App: React.FC = () => {
                 <img
                   id="home"
                   src={`../assets/vectors/home_icon${
-                    tabActive == "Home" ? "_active" : ""
+                    tabActive === "Home" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
               <IonTabButton
@@ -188,8 +202,9 @@ const App: React.FC = () => {
                 <img
                   id="addlesson"
                   src={`../assets/vectors/addlesson_icon${
-                    tabActive == "AddLesson" ? "_active" : ""
+                    tabActive === "AddLesson" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
 
@@ -201,8 +216,9 @@ const App: React.FC = () => {
                 <img
                   id="library"
                   src={`../assets/vectors/library_icon${
-                    tabActive == "Library" ? "_active" : ""
+                    tabActive === "Library" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
             </IonTabBar>

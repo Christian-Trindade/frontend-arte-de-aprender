@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { IonPage, IonRow } from "@ionic/react";
+import { IonButton, IonModal, IonPage, IonRow } from "@ionic/react";
+
+import SearchPage from "../Search";
 
 import { SearchBar } from "../../components/ui";
 import RoundButtonHome from "../../components/ui/RoundButtonHome";
@@ -13,6 +15,7 @@ import { Keyable } from "../../types/Keyable";
 const Home: React.FC = () => {
   const [categories, setCategories] = useState([]);
   const [best, setBest] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const getCategory = async () => {
     let response: Keyable = await api.get("/subject/list");
@@ -23,18 +26,39 @@ const Home: React.FC = () => {
         shadow: hexToRgbA(elem.color),
       };
     });
-
-    setCategories(temp);
+    return temp;
   };
 
   const getBest = async () => {
     let response: Keyable = await api.get("/audio/list-best");
-    setBest(response.data);
+
+    return response.data;
   };
 
   useEffect(() => {
-    getCategory();
-    getBest();
+    let mounted = true;
+    getCategory().then((resp) => {
+      if (mounted) {
+        setCategories(resp);
+      }
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    getBest().then((resp) => {
+      if (mounted) {
+        setBest(resp);
+      }
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
   }, []);
 
   return (
@@ -47,7 +71,13 @@ const Home: React.FC = () => {
           <S.TitleSearch>
             <span>Olá Hugo,</span>Buscar Matéria
           </S.TitleSearch>
-          <SearchBar onChange={() => null} placeholder="Digite sua busca" />
+          <SearchBar
+            readonly={true}
+            onClick={() => setShowModal(true)}
+            onChange={() => null}
+            autoFocus={true}
+            placeholder="Digite sua busca"
+          />
         </S.Header>
         <S.TitleSectionUI color={"var(--ion-color-texto-preto)"}>
           Categorias
@@ -84,6 +114,10 @@ const Home: React.FC = () => {
                 <BoxSpotline key={el} skeleton={true} />
               ))}
         </S.ScrollHorizontalDiv>
+
+        <IonModal isOpen={showModal} cssClass="my-custom-class">
+          <SearchPage setShowModal={setShowModal} />
+        </IonModal>
       </S.StyledContent>
     </IonPage>
   );
