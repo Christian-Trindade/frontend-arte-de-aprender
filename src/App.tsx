@@ -18,6 +18,7 @@ import AddLesson from "./pages/AddLesson";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
+import PageMusic from "./pages/pageMusic";
 
 // globals css
 import "./app.css";
@@ -95,6 +96,13 @@ const App: React.FC = () => {
           <Route
             path="/CreateAccount"
             component={CreateAccount}
+            render={() => <CheckLogin />}
+            exact={true}
+          />
+
+          <Route
+            path="/PageMusic"
+            component={PageMusic}
             render={() => <CheckLogin />}
             exact={true}
           />
