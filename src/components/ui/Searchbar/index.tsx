@@ -2,7 +2,7 @@ import React, { ChangeEventHandler } from "react";
 import styled from "styled-components";
 
 interface SearchBarProps {
-  onChange: ChangeEventHandler;
+  onChange: any;
   placeHolder: string;
 }
 

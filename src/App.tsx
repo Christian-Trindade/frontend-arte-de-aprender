@@ -15,9 +15,6 @@ import { isAuthenticated } from "./services/auth";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import AddLesson from "./pages/AddLesson";
-import ReadResume from "./pages/AddLesson/ReadResume";
-import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
-import SearchPage from "./pages/Search";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
@@ -43,6 +40,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import SearchPage from "./pages/Search";
 
 interface PrivateRouteParams {
   component: React.FC;
@@ -60,6 +58,7 @@ const App: React.FC = () => {
     exact,
   }) => {
     if (isAuthenticated()) {
+      console.log("entrou aqui home 2");
       return (
         <Route
           component={isAuthenticated() ? component : Login}
@@ -68,14 +67,17 @@ const App: React.FC = () => {
         />
       );
     } else {
+      console.log("entrou aqui login 2");
       return <Redirect to={"/Login"} />;
     }
   };
 
   const CheckLogin: React.FC = () => {
     if (isAuthenticated()) {
+      console.log("entrou aqui home");
       return <Redirect to={"/Home"} />;
     } else {
+      console.log("entrou aqui login");
       return <Redirect to={"/Login"} />;
     }
   };
@@ -107,32 +109,14 @@ const App: React.FC = () => {
               <PrivateRoute path="/Library" component={Library} exact={true} />
 
               <PrivateRoute
-                path="/SearchPage"
-                component={SearchPage}
-                exact={true}
-              />
-              
-                            <PrivateRoute
                 path="/AddLesson"
                 component={AddLesson}
                 exact={true}
               />
-              
-                            <PrivateRoute
-                path="/ReadResume/:id"
-                component={ReadResume}
-                exact={true}
-              />
 
               <PrivateRoute
-                path="/ReadResume/:id"
-                component={ReadResume}
-                exact={true}
-              />
-
-              <PrivateRoute
-                path="/ChoiceBeat/:id"
-                component={ChoiceBeat}
+                path="/Search"
+                component={SearchPage}
                 exact={true}
               />
             </IonRouterOutlet>

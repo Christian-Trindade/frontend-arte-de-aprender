@@ -23,17 +23,38 @@ const Home: React.FC = () => {
         shadow: hexToRgbA(elem.color),
       };
     });
-    setCategories(temp);
+    return temp;
   };
   const getBest = async () => {
     let response: Keyable = await api.get("/audio/list-best");
 
-    setBest(response.data);
+    return response.data;
   };
 
   useEffect(() => {
-    getCategory();
-    getBest();
+    let mounted = true;
+    getCategory().then((resp) => {
+      if (mounted) {
+        setCategories(resp);
+      }
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    getBest().then((resp) => {
+      if (mounted) {
+        setBest(resp);
+      }
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
   }, []);
 
   return (
