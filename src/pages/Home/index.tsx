@@ -46,7 +46,7 @@ const Home: React.FC = () => {
           <S.TitleSearch>
             <span>Olá Hugo,</span>Buscar Matéria
           </S.TitleSearch>
-          <SearchBar placeholder="Digite sua busca" />
+          <SearchBar onChange={() => null} placeHolder="Digite sua busca" />
         </S.Header>
         <S.TitleSectionUI color={"var(--ion-color-texto-preto)"}>
           Categorias

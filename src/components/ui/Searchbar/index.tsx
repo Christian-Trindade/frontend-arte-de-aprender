@@ -1,11 +1,16 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import styled from "styled-components";
+
+interface SearchBarProps {
+  onChange: ChangeEventHandler;
+  placeHolder: string;
+}
 
 const Box = styled.span`
   display: flex;
 
   input {
-    background: var(--ion-color-content-containers-light);
+    background: var(--ion-color-content-background-light);
     border-radius: 0.5rem 0px 0px 0.5rem;
     width: 100%;
     height: 4rem;
@@ -13,6 +18,8 @@ const Box = styled.span`
     padding-left: 1.5rem;
     box-sizing: border-box;
     outline: 0;
+
+    font-size: 2vh;
 
     &::placeholder {
       font-size: 1.4rem;
@@ -27,12 +34,10 @@ const Box = styled.span`
   }
 `;
 
-type Props = { placeholder: string };
-
-const SearchBar = (props: Props) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onChange, ...rest }) => {
   return (
     <Box>
-      <input type="text" {...props} />
+      <input onChange={onChange} type="text" {...rest} />
       <button>
         <img
           src="assets/vectors/icon_searchbar.svg"
