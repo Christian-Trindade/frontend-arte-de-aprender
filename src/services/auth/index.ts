@@ -12,15 +12,14 @@ export const login = async (params: object) => {
 
   await api
     .post("login", params)
-    .then((response) => {
+    .then(async (response) => {
       window.localStorage.setItem(TOKEN_KEY, response.data.access_token);
       Issuccess = true;
+      await getServerUserData();
     })
     .catch((error) => {
       console.error(error);
     });
-
-  await getServerUserData();
 
   return Issuccess;
 };

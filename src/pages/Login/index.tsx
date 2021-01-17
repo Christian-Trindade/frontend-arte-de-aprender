@@ -55,14 +55,12 @@ const Login: React.FC = () => {
     setShowLoading(true);
 
     let responseLogin = await login(userData);
-
+    setShowLoading(false);
     if (responseLogin) {
-      setShowLoading(false);
       history.push("/home");
     } else {
       setMessage("Dados incorretos");
       setIserror(true);
-      setShowLoading(false);
     }
   };
 
