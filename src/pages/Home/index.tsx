@@ -6,7 +6,7 @@ import SearchPage from "../Search";
 import { SearchBar } from "../../components/ui";
 import RoundButtonHome from "../../components/ui/RoundButtonHome";
 import { api } from "../../services/api";
-import { getUserData } from "../../services/auth";
+import { getUserData, logout } from "../../services/auth";
 import hexToRgbA from "../../utils/hextorgba";
 
 import * as S from "./styles";
@@ -71,7 +71,10 @@ const Home: React.FC = () => {
       >
         <S.Header>
           <S.TitleSearch>
-            <span>Olá {userData.name},</span>Buscar Matéria
+            <div>
+              <span>Olá {userData.name},</span>Buscar Matéria
+            </div>
+            <div onClick={() => logout()}>Sair</div>
           </S.TitleSearch>
           <SearchBar
             readonly={true}

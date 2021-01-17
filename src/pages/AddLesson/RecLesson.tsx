@@ -121,7 +121,7 @@ const RecLesson: React.FC = () => {
 
           let gainNodeBeat = audioContext.createGain();
           backgroundMusic.connect(gainNodeBeat);
-          gainNodeBeat.gain.setValueAtTime(0.25, audioContext.currentTime);
+          gainNodeBeat.gain.setValueAtTime(0.45, audioContext.currentTime);
 
           // envia o beat de volta ao audio element
           gainNodeBeat.connect(audioContext.destination);
