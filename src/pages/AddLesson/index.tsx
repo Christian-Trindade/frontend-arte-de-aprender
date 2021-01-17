@@ -118,10 +118,10 @@ const AddLesson: React.FC = () => {
       {seletedSubject && (
         <>
           <p>Tópicos</p>
-          <SearchBar
+          {/* <SearchBar
             placeholder="Exemplo: Revolta da Vacina"
             onChange={(e: Keyable) => debouncedOnChange(e.target.value)}
-          />
+          /> */}
           <StyledContentBox>
             {topicList?.map((topic: Keyable) => (
               <TopicContainer
