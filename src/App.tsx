@@ -18,9 +18,6 @@ import ReadResume from "./pages/AddLesson/ReadResume";
 import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
 import RecLesson from "./pages/AddLesson/RecLesson";
 
-
-import SearchPage from "./pages/Search";
-
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
 import PageMusic from "./pages/pageMusic";
@@ -108,13 +105,6 @@ const App: React.FC = () => {
             exact={true}
           />
 
-          <Route
-            path="/PageMusic"
-            component={PageMusic}
-            render={() => <CheckLogin />}
-            exact={true}
-          />
-
           <Route path="/" render={() => <CheckLogin />} exact={true} />
 
           <IonTabs
@@ -142,46 +132,37 @@ const App: React.FC = () => {
           >
             <IonRouterOutlet>
               <PrivateRoute path="/Home" component={Home} exact={true} />
-
               <PrivateRoute path="/Library" component={Library} exact={true} />
-
               <PrivateRoute
                 path="/AddLesson"
                 component={AddLesson}
                 exact={true}
               />
-
               <PrivateRoute
                 path="/ReadResume/:id"
                 component={ReadResume}
                 exact={true}
               />
-
               <PrivateRoute
                 path="/ChoiceBeat/:id"
                 component={ChoiceBeat}
                 exact={true}
               />
-
               <PrivateRoute
                 path="/RecLesson/:beatId/:topicId"
                 component={RecLesson}
                 exact={true}
               />
-
-              <PrivateRoute
-                path="/SearchPage"
-                component={SearchPage}
-                exact={true}
-              />
-              
               <PrivateRoute
                 path="/ListLesson"
                 component={ListLesson}
                 exact={true}
               />
-              
-                p
+              <PrivateRoute
+                path="/PageMusic"
+                component={PageMusic}
+                exact={true}
+              />
             </IonRouterOutlet>
 
             <IonTabBar color="primaryBlue" slot="bottom">

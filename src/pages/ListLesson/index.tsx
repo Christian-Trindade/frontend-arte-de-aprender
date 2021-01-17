@@ -90,10 +90,6 @@ const ListLesson: React.FC<Props> = () => {
               {list.map((el: Keyable, index) => {
                 return (
                   <li key={el.id} onClick={() => chooseLesson(el)}>
-                    {/* <img
-                      src="https://plataform-music.s3-sa-east-1.amazonaws.com/imagens/topics/category/3/era-vargas.jpg"
-                      alt=""
-                    /> */}
                     <div>
                       <p>
                         {index + 1}. {el.title}
