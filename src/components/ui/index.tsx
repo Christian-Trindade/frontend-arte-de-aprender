@@ -62,7 +62,7 @@ export const ComboBox = styled.select`
   font-size: 14px;
   line-height: 21px;
   border: none;
-  padding: 3vw;
+  padding-left: 2vw;
 `;
 
 export const ContentBox = styled.div`
