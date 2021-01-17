@@ -2,8 +2,11 @@ import React, { ChangeEventHandler } from "react";
 import styled from "styled-components";
 
 interface SearchBarProps {
-  onChange: any;
-  placeHolder: string;
+  onChange?: ChangeEventHandler;
+  onClick?: () => void;
+  placeholder: string;
+  readonly?: boolean;
+  autoFocus?: boolean;
 }
 
 const Box = styled.span`

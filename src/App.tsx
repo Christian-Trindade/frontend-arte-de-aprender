@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -15,6 +14,8 @@ import { isAuthenticated } from "./services/auth";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import AddLesson from "./pages/AddLesson";
+
+import SearchPage from "./pages/Search";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
@@ -40,7 +41,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import SearchPage from "./pages/Search";
+import ListLesson from "./pages/ListLesson";
 
 interface PrivateRouteParams {
   component: React.FC;
@@ -48,8 +49,10 @@ interface PrivateRouteParams {
   exact: boolean;
 }
 
+let tabActive = "Home";
+
 const App: React.FC = () => {
-  const [tabActive, setTabActive] = useState<string>("Home");
+  // const [tabActive, setTabActive] = useState<string>("Home");
 
   //control o acesso as rotas privadas por login
   const PrivateRoute: React.FC<PrivateRouteParams> = ({
@@ -102,7 +105,29 @@ const App: React.FC = () => {
 
           <Route path="/" render={() => <CheckLogin />} exact={true} />
 
-          <IonTabs onIonTabsDidChange={(e) => setTabActive(e.detail.tab)}>
+          <IonTabs
+            onIonTabsDidChange={(e) => {
+              const tabs = ["home", "addlesson", "library"];
+
+              tabs.forEach((tabItem: string) => {
+                let tab = document.getElementById(tabItem);
+
+                if (tab) {
+                  if (tabItem === e.detail.tab) {
+                    tab.setAttribute(
+                      "src",
+                      `../assets/vectors/${e.detail.tab}_icon_active.svg`
+                    );
+                  } else {
+                    tab.setAttribute(
+                      "src",
+                      `../assets/vectors/${tabItem}_icon.svg`
+                    );
+                  }
+                }
+              });
+            }}
+          >
             <IonRouterOutlet>
               <PrivateRoute path="/Home" component={Home} exact={true} />
 
@@ -115,41 +140,47 @@ const App: React.FC = () => {
               />
 
               <PrivateRoute
-                path="/Search"
-                component={SearchPage}
+                path="/ListLesson"
+                component={ListLesson}
                 exact={true}
               />
             </IonRouterOutlet>
 
             <IonTabBar color="primaryBlue" slot="bottom">
-              <IonTabButton tab="Home" href="/Home" style={{ padding: "5px" }}>
+              <IonTabButton tab="home" href="/Home" style={{ padding: "5px" }}>
                 <img
+                  id="home"
                   src={`../assets/vectors/home_icon${
-                    tabActive == "Home" ? "_active" : ""
+                    tabActive === "Home" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
               <IonTabButton
-                tab="AddLesson"
+                tab="addlesson"
                 href="/AddLesson"
                 style={{ padding: "5px" }}
               >
                 <img
+                  id="addlesson"
                   src={`../assets/vectors/addlesson_icon${
-                    tabActive == "AddLesson" ? "_active" : ""
+                    tabActive === "AddLesson" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
 
               <IonTabButton
                 style={{ padding: "5px" }}
-                tab="Library"
+                tab="library"
                 href="/Library"
               >
                 <img
+                  id="library"
                   src={`../assets/vectors/library_icon${
-                    tabActive == "Library" ? "_active" : ""
+                    tabActive === "Library" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
             </IonTabBar>

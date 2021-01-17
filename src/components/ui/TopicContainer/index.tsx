@@ -1,15 +1,15 @@
 import * as React from "react";
 
-import { TopicContainerDiv, TopicImage } from "./ui";
+import { TopicContainerDiv, TopicImage, BoxImage } from "./ui";
 
 interface Keyable {
   [key: string]: any;
 }
 
 interface TopicContainerProps {
-  onClick: Function;
   data: Keyable;
   isSelected: boolean;
+  setSelectedTopic: Function;
 }
 
 const baseImageUrl =
@@ -17,21 +17,19 @@ const baseImageUrl =
 
 const TopicContainer: React.FC<TopicContainerProps> = ({
   data,
-  onClick,
   isSelected,
+  setSelectedTopic,
 }) => {
   return (
     <TopicContainerDiv
       color="background-light"
       lines="none"
-      onClick={() => {
-        onClick();
-      }}
       isSelected={isSelected}
+      onClick={() => setSelectedTopic(data)}
     >
-      <div>
+      <BoxImage>
         <TopicImage src={`${baseImageUrl}${data.subject_id}/${data.image}`} />
-      </div>
+      </BoxImage>
       <div>
         <div className="title">{data.name}</div>
         <div className="qnt">{data.qty_audio} Aulas</div>
