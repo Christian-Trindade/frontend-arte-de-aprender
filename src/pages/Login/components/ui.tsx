@@ -14,7 +14,7 @@ export const StyledContent = styled(IonContent)`
   }
 
   #logoContainer {
-    margin-bottom: 2vh;
+    margin-bottom: 5vh;
   }
 
   .gridContainer {
