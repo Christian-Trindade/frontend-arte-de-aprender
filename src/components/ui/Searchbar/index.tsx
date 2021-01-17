@@ -5,13 +5,15 @@ const Box = styled.span`
   display: flex;
 
   input {
-    background: var(--ion-color-content-containers-light);
+    background: var(--ion-color-content-background-light);
     border-radius: 0.5rem 0px 0px 0.5rem;
     width: 100%;
     height: 4rem;
     border: 0;
     padding-left: 1.5rem;
     box-sizing: border-box;
+
+    font-size: 2vh;
 
     &::placeholder {
       font-size: 1.4rem;
@@ -26,9 +28,9 @@ const Box = styled.span`
   }
 `;
 
-type Props = { placeholder: string };
+// type Props = { placeholder: string };
 
-const SearchBar = (props: Props) => {
+const SearchBar = ({ ...props }) => {
   return (
     <Box>
       <input type="text" {...props} />
