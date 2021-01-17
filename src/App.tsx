@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -18,8 +17,6 @@ import AddLesson from "./pages/AddLesson";
 import ReadResume from "./pages/AddLesson/ReadResume";
 import ChoiceBeat from "./pages/AddLesson/ChoiceBeat";
 import RecLesson from "./pages/AddLesson/RecLesson";
-
-import SearchPage from "./pages/Search";
 
 import CreateAccount from "./pages/Login/CreateAccount";
 import Login from "./pages/Login";
@@ -46,6 +43,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import ListLesson from "./pages/ListLesson";
 
 interface PrivateRouteParams {
   component: React.FC;
@@ -103,13 +101,6 @@ const App: React.FC = () => {
             exact={true}
           />
 
-          <Route
-            path="/PageMusic"
-            component={PageMusic}
-            render={() => <CheckLogin />}
-            exact={true}
-          />
-
           <Route path="/" render={() => <CheckLogin />} exact={true} />
 
           <IonTabs
@@ -120,7 +111,7 @@ const App: React.FC = () => {
                 let tab = document.getElementById(tabItem);
 
                 if (tab) {
-                  if (tabItem == e.detail.tab) {
+                  if (tabItem === e.detail.tab) {
                     tab.setAttribute(
                       "src",
                       `../assets/vectors/${e.detail.tab}_icon_active.svg`
@@ -137,36 +128,35 @@ const App: React.FC = () => {
           >
             <IonRouterOutlet>
               <PrivateRoute path="/Home" component={Home} exact={true} />
-
               <PrivateRoute path="/Library" component={Library} exact={true} />
-
               <PrivateRoute
                 path="/AddLesson"
                 component={AddLesson}
                 exact={true}
               />
-
               <PrivateRoute
                 path="/ReadResume/:id"
                 component={ReadResume}
                 exact={true}
               />
-
               <PrivateRoute
                 path="/ChoiceBeat/:id"
                 component={ChoiceBeat}
                 exact={true}
               />
-
               <PrivateRoute
                 path="/RecLesson/:beatId/:topicId"
                 component={RecLesson}
                 exact={true}
               />
-
               <PrivateRoute
-                path="/SearchPage"
-                component={SearchPage}
+                path="/ListLesson"
+                component={ListLesson}
+                exact={true}
+              />
+              <PrivateRoute
+                path="/PageMusic"
+                component={PageMusic}
                 exact={true}
               />
             </IonRouterOutlet>
@@ -176,8 +166,9 @@ const App: React.FC = () => {
                 <img
                   id="home"
                   src={`../assets/vectors/home_icon${
-                    tabActive == "Home" ? "_active" : ""
+                    tabActive === "Home" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
               <IonTabButton
@@ -188,8 +179,9 @@ const App: React.FC = () => {
                 <img
                   id="addlesson"
                   src={`../assets/vectors/addlesson_icon${
-                    tabActive == "AddLesson" ? "_active" : ""
+                    tabActive === "AddLesson" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
 
@@ -201,8 +193,9 @@ const App: React.FC = () => {
                 <img
                   id="library"
                   src={`../assets/vectors/library_icon${
-                    tabActive == "Library" ? "_active" : ""
+                    tabActive === "Library" ? "_active" : ""
                   }.svg`}
+                  alt={tabActive}
                 />
               </IonTabButton>
             </IonTabBar>

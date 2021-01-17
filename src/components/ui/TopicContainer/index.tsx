@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { TopicContainerDiv, TopicImage } from "./ui";
+import { TopicContainerDiv, TopicImage, BoxImage } from "./ui";
 
 interface Keyable {
   [key: string]: any;
@@ -27,9 +27,9 @@ const TopicContainer: React.FC<TopicContainerProps> = ({
       isSelected={isSelected}
       onClick={() => setSelectedTopic(data)}
     >
-      <div>
+      <BoxImage>
         <TopicImage src={`${baseImageUrl}${data.subject_id}/${data.image}`} />
-      </div>
+      </BoxImage>
       <div>
         <div className="title">{data.name}</div>
         <div className="qnt">{data.qty_audio} Aulas</div>
